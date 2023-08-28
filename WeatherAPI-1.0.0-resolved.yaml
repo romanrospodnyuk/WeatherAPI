@@ -1,0 +1,475 @@
+---
+openapi: 3.0.2
+info:
+  title: Weather API
+  description: "Получите текущую погоду, ежедневный прогноз на 16 дней и прогноз с трехчасовым интервалом на 5 дней для вашего города. Полезная статистика, графики и диаграммы и этот день в истории доступны для вашего ознакомления. Интерактивные карты показывают осадки, облачность, давление, ветер вокруг станций вашего местоположения. Данные доступны в формате JSON, XML или HTML. <br/><br/> **Примечание**: Этот пример файла Swagger охватывает `текущую` конечную точку только из OpenWeatherMap API. <br/><br/> **Примечание**: Все параметры необязательны, но вы должны выбрать хотя бы один параметр. Вызов API по идентификатору города (с использованием параметра `id`) обеспечит наиболее точные результаты определения местоположения."
+  termsOfService: https://openweathermap.org/terms
+  contact:
+    name: Weather API
+    url: https://openweathermap.org/api
+    email: some_email@gmail.com
+  license:
+    name: CC Attribution-ShareAlike 4.0 (CC BY-SA 4.0)
+    url: https://openweathermap.org/price
+  version: 1.0.0
+externalDocs:
+  description: API Documentation
+  url: https://openweathermap.org/api
+servers:
+- url: https://api.openweathermap.org/data/2.5/
+  description: Production server
+- url: http://beta.api.openweathermap.org/data/2.5/
+  description: Beta server
+- url: http://some-other.api.openweathermap.org/data/2.5/
+  description: Some other server
+security:
+- app_id: []
+tags:
+- name: Current Weather Data
+  description: Get current weather details
+paths:
+  /weather:
+    get:
+      tags:
+      - Current Weather Data
+      summary: Запросить текущие данные о погоде для одного местоположения
+      description: "Получите доступ к текущим данным о погоде в любом месте на Земле, включая более 200 000 городов! Текущая погода часто обновляется на основе глобальных моделей и данных с более чем 40 000 метеостанций."
+      operationId: CurrentWeatherData
+      parameters:
+      - name: q
+        in: query
+        description: "**Название города**. *Пример: London*. Вы можете сделать запрос по названию города или по названию города и коду страны. В качестве значения запроса введите название города и, необязательно, код страны, разделенный запятой; используйте коды стран ISO 3166."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: id
+        in: query
+        description: "**Идентификационный номер города**. *Пример: `2172797`*. Вы можете сделать запрос по номеру города. API выдает точный результат. Список идентификаторов городов можно скачать [здесь](http://bulk.openweathermap.org/sample/).*"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: lat
+        in: query
+        description: "**Широта**. *Пример: 35*. Широтная координата интересующего вас местоположения. Необходимо использовать с `lon`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: lon
+        in: query
+        description: "**Долгота**. *Пример: 139*. Координата долготы интересующего вас местоположения. Необходимо использовать с `lat`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: zip
+        in: query
+        description: "**Почтовый индекс**. Поиск по почтовому индексу. *Пример: 95050, США*. Пожалуйста, обратите внимание, что если страна не указана, то при поиске по умолчанию используются США."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: units
+        in: query
+        description: "**Единицы измерения**. *Пример: имперский*. Возможные значения: `стандартное`, `метрическое` и `имперское`. Если вы не используете параметр \"единицы измерения\", по умолчанию используется формат \"стандартный\"."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: imperial
+          enum:
+          - standard
+          - metric
+          - imperial
+      - name: lang
+        in: query
+        description: "**Язык**. *Пример: en*. Вы можете использовать параметр lang, чтобы получить выходные данные на вашем языке. Мы поддерживаем следующие языки, которые вы можете использовать с соответствующими языковыми значениями: арабский - \"ar\", болгарский - \"bg\", каталанский - \"ca\", чешский - \"cz\", немецкий - \"de\", греческий - \"el\", английский - \"en\", персидский (фарси) - `fa`, финский - `fi`, французский - `fr`, галисийский - `gl`, хорватский - `hr`, венгерский - `hu`, итальянский - `it`, японский - `ja`, корейский - `kr`, латышский - `la`, Литовский - `lt`, Македонский - `mk`, голландский - `nl`, польский - `pl`, Португальский - `pt`, румынский - `ro`, русский - `ru`, шведский - `se`, словацкий - `sk`, словенский - `sl`, Испанский - `es`, турецкий - `tr`, украинский - `ua`, вьетнамский - `vi`, китайский упрощенный - \"zh_cn\", китайский традиционный - `zh_tw`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: en
+          enum:
+          - ar
+          - bg
+          - ca
+          - cz
+          - de
+          - el
+          - en
+          - fa
+          - fi
+          - fr
+          - gl
+          - hr
+          - hu
+          - it
+          - ja
+          - kr
+          - la
+          - lt
+          - mk
+          - nl
+          - pl
+          - pt
+          - ro
+          - ru
+          - se
+          - sk
+          - sl
+          - es
+          - tr
+          - ua
+          - vi
+          - zh_cn
+          - zh_tw
+      - name: mode
+        in: query
+        description: "**Режим**. *Пример: html*. Определяет формат ответа. Возможными значениями являются `xml` и `html`. Если параметр mode пуст, то по умолчанию используется формат `json`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          default: json
+          enum:
+          - json
+          - xml
+          - html
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/200'
+        "404":
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Weather not found
+                type: string
+                example: Not found
+components:
+  schemas:
+    "200":
+      title: Successful response
+      type: object
+      properties:
+        coord:
+          $ref: '#/components/schemas/Coord'
+        weather:
+          type: array
+          description: (дополнительная информация Коды погодных условий)
+          items:
+            $ref: '#/components/schemas/Weather'
+        base:
+          type: string
+          description: Внутренний параметр
+          example: cmc stations
+        main:
+          $ref: '#/components/schemas/Main'
+        visibility:
+          type: integer
+          description: "Видимость, метр"
+          example: 16093
+        wind:
+          $ref: '#/components/schemas/Wind'
+        clouds:
+          $ref: '#/components/schemas/Clouds'
+        rain:
+          $ref: '#/components/schemas/Rain'
+        snow:
+          $ref: '#/components/schemas/Snow'
+        dt:
+          type: integer
+          description: "Время вычисления данных, unix, UTC"
+          format: int32
+          example: 1435658272
+        sys:
+          $ref: '#/components/schemas/Sys'
+        id:
+          type: integer
+          description: Идентификационный номер города
+          format: int32
+          example: 2172797
+        name:
+          type: string
+          example: Cairns
+        cod:
+          type: integer
+          description: Внутренний параметр
+          format: int32
+          example: 200
+    Coord:
+      title: Coord
+      type: object
+      properties:
+        lon:
+          type: number
+          description: "Географическое положение города, долгота"
+          example: 145.77
+        lat:
+          type: number
+          description: "Географическое положение города, широта"
+          example: -16.92
+    Weather:
+      title: Weather
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор погодных условий
+          format: int32
+          example: 803
+        main:
+          type: string
+          description: "Группа погодных параметров (дождь, снег, экстремальные условия и т.д.)"
+          example: Clouds
+        description:
+          type: string
+          description: Погодные условия внутри группы
+          example: broken clouds
+        icon:
+          type: string
+          description: Идентификатор значка погоды
+          example: 04n
+    Main:
+      title: Main
+      type: object
+      properties:
+        temp:
+          type: number
+          description: "Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
+          example: 293.25
+        pressure:
+          type: integer
+          description: "Атмосферное давление (на уровне моря, если нет данных sea_level или grnd_level), ГПа"
+          format: int32
+          example: 1019
+        humidity:
+          type: integer
+          description: "Влажность, %"
+          format: int32
+          example: 83
+        temp_min:
+          type: number
+          description: "Минимальная температура на данный момент. Это отклонение от текущей температуры, которое возможно для крупных городов и мегаполисов, географически расширенных (используйте этот параметр необязательно). Единицы измерения по умолчанию: Кельвин, Метрические: Цельсий, имперские: Фаренгейт."
+          example: 289.82
+        temp_max:
+          type: number
+          description: "Максимальная температура на данный момент. Это отклонение от текущей температуры, которое возможно для крупных городов и мегаполисов, географически расширенных (используйте этот параметр необязательно). Единицы измерения по умолчанию: Кельвин, Метрические: Цельсий, имперские: Фаренгейт."
+          example: 295.37
+        sea_level:
+          type: number
+          description: "Атмосферное давление на уровне моря, ГПа"
+          example: 984
+        grnd_level:
+          type: number
+          description: "Атмосферное давление на уровне земли, ГПа"
+          example: 990
+    Wind:
+      title: Wind
+      type: object
+      properties:
+        speed:
+          type: number
+          description: "Скорость ветра. Единица измерения по умолчанию: метр/сек, Метрическая: метр/сек, имперская: мили/час."
+          example: 5.1
+        deg:
+          type: integer
+          description: "Направление ветра, градусы (метеорологическое)"
+          format: int32
+          example: 150
+    Clouds:
+      title: Clouds
+      type: object
+      properties:
+        all:
+          type: integer
+          description: "Облачность, %"
+          format: int32
+          example: 75
+    Rain:
+      title: Rain
+      type: object
+      properties:
+        "3h":
+          type: integer
+          description: Количество осадков за последние 3 часа
+          format: int32
+          example: 3
+    Snow:
+      title: Snow
+      type: object
+      properties:
+        "3h":
+          type: number
+          description: Объем выпавшего снега за последние 3 часа
+          example: 6
+    Sys:
+      title: Sys
+      type: object
+      properties:
+        type:
+          type: integer
+          description: Внутренний параметр
+          format: int32
+          example: 1
+        id:
+          type: integer
+          description: Внутренний параметр
+          format: int32
+          example: 8166
+        message:
+          type: number
+          description: Внутренний параметр
+          example: 0.0166
+        country:
+          type: string
+          description: "Код страны (GB, JP и т.д.)"
+          example: AU
+        sunrise:
+          type: integer
+          description: "Время восхода солнца, unix, UTC"
+          format: int32
+          example: 1435610796
+        sunset:
+          type: integer
+          description: "Время захода солнца, unix, UTC"
+          format: int32
+          example: 1435650870
+  parameters:
+    q:
+      name: q
+      in: query
+      description: "**Название города**. *Пример: London*. Вы можете сделать запрос по названию города или по названию города и коду страны. В качестве значения запроса введите название города и, необязательно, код страны, разделенный запятой; используйте коды стран ISO 3166."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    id:
+      name: id
+      in: query
+      description: "**Идентификационный номер города**. *Пример: `2172797`*. Вы можете сделать запрос по номеру города. API выдает точный результат. Список идентификаторов городов можно скачать [здесь](http://bulk.openweathermap.org/sample/).*"
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    lat:
+      name: lat
+      in: query
+      description: "**Широта**. *Пример: 35*. Широтная координата интересующего вас местоположения. Необходимо использовать с `lon`."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    lon:
+      name: lon
+      in: query
+      description: "**Долгота**. *Пример: 139*. Координата долготы интересующего вас местоположения. Необходимо использовать с `lat`."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    zip:
+      name: zip
+      in: query
+      description: "**Почтовый индекс**. Поиск по почтовому индексу. *Пример: 95050, США*. Пожалуйста, обратите внимание, что если страна не указана, то при поиске по умолчанию используются США."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+    units:
+      name: units
+      in: query
+      description: "**Единицы измерения**. *Пример: имперский*. Возможные значения: `стандартное`, `метрическое` и `имперское`. Если вы не используете параметр \"единицы измерения\", по умолчанию используется формат \"стандартный\"."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+        default: imperial
+        enum:
+        - standard
+        - metric
+        - imperial
+    lang:
+      name: lang
+      in: query
+      description: "**Язык**. *Пример: en*. Вы можете использовать параметр lang, чтобы получить выходные данные на вашем языке. Мы поддерживаем следующие языки, которые вы можете использовать с соответствующими языковыми значениями: арабский - \"ar\", болгарский - \"bg\", каталанский - \"ca\", чешский - \"cz\", немецкий - \"de\", греческий - \"el\", английский - \"en\", персидский (фарси) - `fa`, финский - `fi`, французский - `fr`, галисийский - `gl`, хорватский - `hr`, венгерский - `hu`, итальянский - `it`, японский - `ja`, корейский - `kr`, латышский - `la`, Литовский - `lt`, Македонский - `mk`, голландский - `nl`, польский - `pl`, Португальский - `pt`, румынский - `ro`, русский - `ru`, шведский - `se`, словацкий - `sk`, словенский - `sl`, Испанский - `es`, турецкий - `tr`, украинский - `ua`, вьетнамский - `vi`, китайский упрощенный - \"zh_cn\", китайский традиционный - `zh_tw`."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+        default: en
+        enum:
+        - ar
+        - bg
+        - ca
+        - cz
+        - de
+        - el
+        - en
+        - fa
+        - fi
+        - fr
+        - gl
+        - hr
+        - hu
+        - it
+        - ja
+        - kr
+        - la
+        - lt
+        - mk
+        - nl
+        - pl
+        - pt
+        - ro
+        - ru
+        - se
+        - sk
+        - sl
+        - es
+        - tr
+        - ua
+        - vi
+        - zh_cn
+        - zh_tw
+    mode:
+      name: mode
+      in: query
+      description: "**Режим**. *Пример: html*. Определяет формат ответа. Возможными значениями являются `xml` и `html`. Если параметр mode пуст, то по умолчанию используется формат `json`."
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: string
+        default: json
+        enum:
+        - json
+        - xml
+        - html
+  securitySchemes:
+    app_id:
+      type: apiKey
+      description: "Ключ API для авторизации запросов. Если у вас нет ключа API Weather, используйте `ba1ea33611f115a68812b6880f4d89e2`."
+      name: appid
+      in: query
