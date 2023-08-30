@@ -470,6 +470,6 @@ components:
   securitySchemes:
     app_id:
       type: apiKey
-      description: "Ключ API для авторизации запросов. Если у вас нет ключа API Weather, используйте `ba1ea33611f115a68812b6880f4d89e2`."
+      description: "Ключ API для авторизации запросов. Если у вас нет ключа API Weather, используйте ``."
       name: appid
       in: query
